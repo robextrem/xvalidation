@@ -17,10 +17,10 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 4.  On the page, add a form. Then add a validation-class for every input and (optionally) a data-content message.
     ```
       <form id="form" novalidate>
-                    <input type="text" class="text-validation" data-content="Name field is empty" >
-                    <input type="email" class="email-validation" data-content="Email format is invalid">
-                    <input type="password" class="password-validation"  data-content="Password must have at leas one digit">
-                    <button type="submit">Validate</button>
+           <input type="text" class="text-validation" data-content="Name field is empty" >
+           <input type="email" class="email-validation" data-content="Email format is invalid">
+           <input type="password" class="password-validation"  data-content="Password must have at leas one digit">
+           <button type="submit">Validate</button>
       </form>
     ```
     
@@ -69,7 +69,7 @@ The content is a phone number.
 ##### email-validation
 The content is a valid email.
 ##### address-validation
-The content is a Address.
+The content is an Address.
 ##### zip-validation
 The content is a valid Zip Code.
 ##### password-validation
