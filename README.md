@@ -29,6 +29,7 @@ This plugin makes *easier* to implement front-end validation using Materializecs
     $("#form").Validati();
     ```
 6.  On submit, check the entire form before handling the request.
+    
     ```
     $("#form").submit(function(){
         if($(this).data().Validati.methods.validate()){
