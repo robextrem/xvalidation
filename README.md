@@ -21,7 +21,7 @@ This plugin makes *easier* to implement front-end validation using Materializecs
                     <input type="email" class="email-validation" data-content="Email format is invalid">
                     <input type="password" class="password-validation"  data-content="Password must have at leas one digit">
                     <button type="submit">Validate</button>
-            </form>
+      </form>
     ```
     
 5.  Initialize Validati on the form .
@@ -37,6 +37,7 @@ This plugin makes *easier* to implement front-end validation using Materializecs
         return false;
     });
     ```
+    
 ### Plugin Options
 
 | Option | Default | Format | Description|
