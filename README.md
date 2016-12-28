@@ -43,7 +43,7 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 
 | Option | Default | Format | Description|
 | ------ | ------- | ------- | ---------- |
-| theme| bootstrap  | bootstrap/materialize/none | The front-end framework. Materializecss and Bootstrap 3 are currently supported. |
+| theme| materialize  | bootstrap/materialize/none | The front-end framework. Materializecss and Bootstrap 3 are currently supported. |
 | defaultText| Invalid Format | string | The default notice text when any input field is not valid.  |
 | errorClass| error | string | Class name for highlighting errors. |
 | parentContainer| false | true/false | If set, the div parent will be highlighted insted of the current field. |
