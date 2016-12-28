@@ -1,4 +1,4 @@
-# jquery-validati
+# materialize-validation
 This plugin makes *easier* to implement front-end validation using Materializecss, Bootstrap or even without a framework.
 
 ### Implementation
@@ -17,9 +17,9 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 4.  On the page, add a form. Then add a validation-class for every input and (optionally) a data-content message.
     ```
       <form id="form" novalidate>
-           <input type="text" data="text" data-content="Name field is empty" >
-           <input type="email" data="email" data-content="Email format is invalid">
-           <input type="password" data="password"  data-content="Password must have at leas one digit">
+           <input type="text" data-validation="text" data-content="Name field is empty" >
+           <input type="email" data-validation="email" data-content="Email format is invalid">
+           <input type="password" data-validation="password"  data-content="Password must have at leas one digit">
            <button type="submit">Validate</button>
       </form>
     ```
