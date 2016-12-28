@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Validati Example</title>
+        <title>Materialize Validation Example</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.js"></script>
@@ -14,16 +14,16 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-        <script src="/js/jquery.validati.js"></script>
+        <script src="/js/materialize-validation.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#form").Validati({
+                $("#form").materialvalidation({
                     theme: "materialize"
                 });
                 $("#form").submit(function (evt) {
                     evt.preventDefault();
                     evt.stopPropagation();
-                    if ($("#form").data().Validati.methods.validate()) {
+                    if ($("#form").data().materialvalidation.methods.validate()) {
                         alert("Do something");
                     }
                     return false;
@@ -38,22 +38,22 @@ and open the template in the editor.
                 <div class="row">
                     <!--Text validator-->
                     <div class="input-field col s12">
-                        <label for="name" data-error="wrong" data-success="OK">Name</label>
-                        <input id="name" type="text" placeholder="Name" class="validate text-validation" data-content="Name cannot be empty" >
+                        <label for="name">Name</label>
+                        <input id="name" type="text" placeholder="Name" data-validation="text" data-content="Name cannot be empty" >
                     </div>
                     <!--No class validator-->
                     <div class="input-field col s12">
-                        <label for="surname" data-error="wrong" data-success="OK">Surname</label>
-                        <input id="surname" type="text" placeholder="Surame" class="validate text-validation">
+                        <label for="surname">Surname</label>
+                        <input id="surname" type="text" placeholder="Surame (Optional)" data-optional="true" data-validation="text" data-content="Surname cannot be empty">
                     </div>
                     <!--Email validator-->
                     <div class="input-field col s12">
-                        <label for="email" data-error="wrong" data-success="OK">Email</label>
-                        <input id="email" type="email" placeholder="email" class="validate email-validation" data-content="Email has a invalid format" >
+                        <label for="email">Email</label>
+                        <input id="email" type="text" data-validation="email" placeholder="email" data-content="Email has a invalid format" >
                     </div>
                     <!--Password validator-->
                     <div class="input-field col s12">
-                        <label data-success="OK" for="password" >Password</label>
+                        <label for="password">Password</label>
                         <input id="password" type="password" class="validate password-validation" data-content="At least 8 characters, 1 Digit, 1 Uppercase character and 1 special character." placeholder="Password">
                     </div>
                     <div class="input-field col s12">

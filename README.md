@@ -3,36 +3,36 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 
 ### Implementation
 
-1.  Download jquery-validati
+1.  Download materialize
 2.  Add a reference to the jQuery library.
     ```
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     ```
     
-3.  Below the reference to jQuery, add a reference to the validati script.
+3.  Below the reference to jQuery, add a reference to the materialvalidation script.
     ```
-    <script type="text/javascript" src="js/jquery.validati.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
     ```
     
 4.  On the page, add a form. Then add a validation-class for every input and (optionally) a data-content message.
     ```
       <form id="form" novalidate>
-           <input type="text" class="text-validation" data-content="Name field is empty" >
-           <input type="email" class="email-validation" data-content="Email format is invalid">
-           <input type="password" class="password-validation"  data-content="Password must have at leas one digit">
+           <input type="text" data="text" data-content="Name field is empty" >
+           <input type="email" data="email" data-content="Email format is invalid">
+           <input type="password" data="password"  data-content="Password must have at leas one digit">
            <button type="submit">Validate</button>
       </form>
     ```
     
-5.  Initialize Validati on the form .
+5.  Initialize materialize on the form .
     ```
-    $("#form").Validati();
+    $("#form").materialvalidation();
     ```
 6.  On submit, check the entire form before handling the request.
     
     ```
     $("#form").submit(function(){
-        if($(this).data().Validati.methods.validate()){
+        if($(this).data().materialvalidation.methods.validate()){
             // your code
         }
         return false;
@@ -47,40 +47,40 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 | defaultText| Invalid Format | string | The default notice text when any input field is not valid.  |
 | errorClass| error | string | Class name for highlighting errors. |
 | parentContainer| false | true/false | If set, the div parent will be highlighted insted of the current field. |
-| customValidations | [] | array[{"class":"val1", "validation":function}] | Set a custom validation and attatch it to a class-validation name. |
+| customvalidationons | [] | array[{"class":"val1", "validation":function}] | Set a custom validation and attatch it to a class name. |
 
 ### Validator Classes
-##### text-validation
+##### text
 The content is purely text.
-##### select-validation
+##### select
 If the elemet is a non-empty select.
-##### empty-validation
+##### empty
 The content is empty.
-##### alphanumeric-validation
+##### alphanumeric
 The content has letters and digits.
-##### numericonly-validation
+##### numericonly
 The content has only digits.
-##### numericorempty-validation
+##### numericorempty
 The content is empty or has digits.
-##### date-validation
+##### date
 The content is a valid date [YYYY-mm-dd].
-##### phone-validation
+##### phone
 The content is a phone number.
-##### email-validation
+##### email
 The content is a valid email.
-##### address-validation
+##### address
 The content is an Address.
-##### zip-validation
+##### zip
 The content is a valid Zip Code.
-##### password-validation
+##### password
 The content has at least 8 characters, 1 Digit, 1 Uppercase character and 1 special character.
-##### url-validation
+##### url
 The content is a valid URL.
-##### domain-validation
+##### domain
 The content is a valid internet domain.
-##### rfc-validation
+##### rfc
 The content is a valid Mexican Tax ID.
-##### samepassword-validation, samepassword2-validation
+##### samepassword, samepassword2
 Field 1 and Field 2 are the same.
 
 License

@@ -1,33 +1,33 @@
 (function ($) {
-    $.fn.Validati = function (options)
+    $.fn.materialvalidation = function (options)
     {
         return this.each(function ()
         {
             var element = $(this);
             // Return early if this element already has a plugin instance
-            if (element.data('Validati'))
+            if (element.data('materialvalidation'))
                 return;
             // pass options to plugin constructor
-            var myplugin = new Validati(this, options);
+            var myplugin = new materialvalidation(this, options);
             // Store plugin object in this element's data
-            element.data('Validati', myplugin);
-            element.data().Validati.methods.init();
+            element.data('materialvalidation', myplugin);
+            element.data().materialvalidation.methods.init();
         });
     };
-    var Validati = function (target, options) {
+    var materialvalidation = function (target, options) {
         var componentObj = {
-            customValidations: [],
+            custommaterialvalidationons: [],
             defaultText: "Invalid Format",
-            fields:"select,textarea,input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
+            fields: "fieldset,select,textarea,input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
             parentContainer: false,
-            html5Validation: false,
+            html5materialvalidationon: false,
             errorClass: "error",
-            theme: "bootstrap", //materialize | bootstrap | none
+            theme: "materialize", // bootstrap | bootstrap | none
             methods: {
                 init: function () {
                     if (options != undefined) {
-                        if (options.customValidations != undefined) {
-                            componentObj.customValidations = options.customValidations;
+                        if (options.custommaterialvalidationons != undefined) {
+                            componentObj.custommaterialvalidationons = options.custommaterialvalidationons;
                         }
                         if (options.theme != undefined) {
                             componentObj.theme = options.theme;
@@ -107,133 +107,209 @@
                             $(this).removeClass(componentObj.errorClass);
                         });
 
-                        if ($(e).hasClass("select-validation")) {
-                            if ($(e).val().length > 0)
-                                valid = true;
-                            else
-                                valid = false;
+                        var data_validation = $(e).data("validation");
+
+                        if ($(e).data().optional) {
+                            if ($(e).val().length < 1)
+                                return true;
                         }
 
-                        if ($(e).hasClass("empty-validation")) {
-                            if ($(e).val() === "")
-                                valid = true;
-                        }
-                        if ($(e).hasClass("text-validation")) {
-                            if (!componentObj.methods.isText($(e).val())) {
-                                valid = false;
+                        switch (data_validation) {
+                            case "empty":
+                            {
+                                if ($(e).val().length > 0)
+                                    valid = false;
+                                break;
                             }
-                        }
-                        if ($(e).hasClass("alphanumeric-validation")) {
-                            if (!componentObj.methods.isAlphaNumeric($(e).val())) {
-                                valid = false;
+
+                            case "noempty":
+                            {
+                                if ($(e).val() === "")
+                                    valid = false;
+                                break;
                             }
-                        }
-                        if ($(e).hasClass("zip-validation")) {
-                            if (!componentObj.methods.isCP($(e).val())) {
-                                valid = false;
+                            case "text":
+                            {
+                                if (!componentObj.methods.isText($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
                             }
-                        }
-                        if ($(e).hasClass("email-validation")) {
-                            if (!componentObj.methods.isEmail($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("phone-validation")) {
-                            if (!componentObj.methods.isPhone($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("phone-validation")) {
-                            if (!componentObj.methods.isPhone($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("clabe-validation")) {
-                            if (!componentObj.methods.isClabe($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("numericonly-validation")) {
-                            if (!componentObj.methods.isNumeric($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("numericorempty-validation")) {
-                            if ($(e).val() != "") {
-                                if (!componentObj.methods.isNumeric($(e).val())) {
+                            case "alphanumeric":
+                            {
+                                if (!componentObj.methods.isAlphaNumeric($(e).val())) {
                                     valid = false;
                                 }
                             }
-                        }
-                        if ($(e).hasClass("cvv-validation")) {
-                            if (!componentObj.methods.isCVV($(e).val())) {
-                                valid = false;
+                            case "zip":
+                            {
+                                if (!componentObj.methods.isCP($(e).val())) {
+                                    valid = false;
+                                }
                             }
-                        }
-                        if ($(e).hasClass("serie-validation")) {
-                            if (!componentObj.methods.isSerie($(e).val())) {
-                                valid = false;
+                            case "email":
+                            {
+                                if (!componentObj.methods.isEmail($(e).val())) {
+                                    valid = false;
+                                }
                             }
-                        }
-                        if ($(e).hasClass("cvvuser-validation")) {
-                            if (!componentObj.methods.isCVVuser($(e).val())) {
-                                valid = false;
+                            case "phone":
+                            {
+                                if (!componentObj.methods.isPhone($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
                             }
-                        }
-                        if ($(e).hasClass("address-validation")) {
-                            if (!componentObj.methods.isAddress($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("expirymonth-validation")) {
-                            if (!componentObj.methods.cc_expiryMonth($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("expiryyear-validation")) {
-                            if (!componentObj.methods.cc_expiryYear($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("password-validation")) {
-                            if (!componentObj.methods.isPassword($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("url-validation")) {
-                            if (!componentObj.methods.isURL($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("date-validation")) {
-                            if (!componentObj.methods.isDate($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("rfc-validation")) {
-                            if (!componentObj.methods.isRFC($(e).val())) {
-                                valid = false;
-                            }
-                        }
-                        if ($(e).hasClass("samepassword-validation")) {
-                            if ($(e).val() === "") {
-                                valid = false;
-                            }
-                            if ($(e).val() !== $(".samepassword2-validation").val()) {
-                                valid = false;
-                            }
+                            case "phone":
+                            {
+                                if (!componentObj.methods.isPhone($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
 
-                        }
+                            }
+                            case "clabe":
+                            {
+                                if (!componentObj.methods.isClabe($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
 
-                        if (componentObj.customValidations !== undefined) {
-                            for (var key in componentObj.customValidations) {
-                                if ($(e).hasClass(componentObj.customValidations[key].class)) {
-                                    if (!componentObj.customValidations[key].validation(e)) {
+                            }
+                            case "numericonly":
+                            {
+                                if (!componentObj.methods.isNumeric($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "numericorempty":
+                            {
+                                if ($(e).val() != "") {
+                                    if (!componentObj.methods.isNumeric($(e).val())) {
+                                        valid = false;
+                                    }
+                                }
+                                break;
+
+                            }
+                            case "cvv":
+                            {
+                                if (!componentObj.methods.isCVV($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "serie":
+                            {
+                                if (!componentObj.methods.isSerie($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "cvvuser":
+                            {
+                                if (!componentObj.methods.isCVVuser($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "address":
+                            {
+                                if (!componentObj.methods.isAddress($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "expirymonth":
+                            {
+                                if (!componentObj.methods.cc_expiryMonth($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "expiryyear":
+                            {
+                                if (!componentObj.methods.cc_expiryYear($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "password":
+                            {
+                                if (!componentObj.methods.isPassword($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "domain":
+                            {
+                                if (!componentObj.methods.isDomain($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+                            }
+                            case "url":
+                            {
+                                if (!componentObj.methods.isURL($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+                            }
+                            case "date":
+                            {
+                                if (!componentObj.methods.isDate($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+                            }
+                            case "rfc":
+                            {
+                                if (!componentObj.methods.isRFC($(e).val())) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "samepassword":
+                            {
+                                if ($(e).val() === "") {
+                                    valid = false;
+                                }
+                                if ($(e).val() !== $(".samepassword2").val()) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+                            case "select":
+                            {
+                                if ($(e).val().length > 0)
+                                    valid = true;
+                                else
+                                    valid = false;
+                                break;
+
+                            }
+                        }
+                        if (componentObj.custommaterialvalidationons !== undefined) {
+                            for (var key in componentObj.custommaterialvalidationons) {
+                                if ($(e).hasClass(componentObj.custommaterialvalidationons[key].class)) {
+                                    if (!componentObj.custommaterialvalidationons[key].validation(e)) {
                                         valid = false;
                                     }
                                 }
                             }
                         }
+
 
                         if (!valid) {
                             if (componentObj.parentContainer) {
