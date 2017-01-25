@@ -20,7 +20,7 @@
             defaultText: "Invalid Format",
             fields: "fieldset,select,textarea,input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
             parentContainer: false,
-            html5materialvalidationon: false,
+            beforeunload: false,
             errorClass: "error",
             theme: "materialize", // bootstrap | bootstrap | none
             methods: {
@@ -28,6 +28,9 @@
                     if (options != undefined) {
                         if (options.custommaterialvalidationons != undefined) {
                             componentObj.custommaterialvalidationons = options.custommaterialvalidationons;
+                        }
+                        if(options.beforeunload !=undefined){
+                            componentObj.beforeunload = options.beforeunload;
                         }
                         if (options.theme != undefined) {
                             componentObj.theme = options.theme;
