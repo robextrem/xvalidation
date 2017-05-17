@@ -11,7 +11,7 @@ This plugin makes *easier* to implement front-end validation using Materializecs
     
 3.  Below the reference to jQuery, add a reference to the materialvalidation script.
     ```
-    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/materialize-validation.js"></script>
     ```
     
 4.  On the page, add a form. Then add a validation-class for every input and (optionally) a data-content message.
