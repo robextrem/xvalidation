@@ -16,21 +16,22 @@
     };
     var materialvalidation = function (target, options) {
         var componentObj = {
-            custommaterialvalidationons: [],
+            customValidations: [],
             defaultText: "Invalid Format",
-            fields: "fieldset,select,textarea,input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
+            fields: "fieldset,select,textarea,input[type=checkbox],input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
             parentContainer: false,
-            beforeunload: false,
+            html5materialvalidationon: false,
             errorClass: "error",
+            notification: true,
             theme: "materialize", // bootstrap | bootstrap | none
             methods: {
                 init: function () {
                     if (options != undefined) {
-                        if (options.custommaterialvalidationons != undefined) {
-                            componentObj.custommaterialvalidationons = options.custommaterialvalidationons;
+                        if (options.customValidations != undefined) {
+                            componentObj.customValidations = options.customValidations;
                         }
-                        if(options.beforeunload !=undefined){
-                            componentObj.beforeunload = options.beforeunload;
+                        if (options.notification != undefined) {
+                            componentObj.notification = options.notification;
                         }
                         if (options.theme != undefined) {
                             componentObj.theme = options.theme;
@@ -127,34 +128,38 @@
 
                             case "noempty":
                             {
-                                if ($(e).val() === "")
+
+                                if ($(e).val().trim() === "")
                                     valid = false;
                                 break;
                             }
                             case "text":
                             {
-                                if (!componentObj.methods.isText($(e).val())) {
+                                if (!componentObj.methods.isText($(e).val().trim())) {
                                     valid = false;
                                 }
                                 break;
                             }
                             case "alphanumeric":
                             {
-                                if (!componentObj.methods.isAlphaNumeric($(e).val())) {
+                                if (!componentObj.methods.isAlphaNumeric($(e).val().trim())) {
                                     valid = false;
                                 }
+                                break;
                             }
                             case "zip":
                             {
                                 if (!componentObj.methods.isCP($(e).val())) {
                                     valid = false;
                                 }
+                                break;
                             }
                             case "email":
                             {
                                 if (!componentObj.methods.isEmail($(e).val())) {
                                     valid = false;
                                 }
+                                break;
                             }
                             case "phone":
                             {
@@ -163,9 +168,9 @@
                                 }
                                 break;
                             }
-                            case "phone":
+                            case "creditcard":
                             {
-                                if (!componentObj.methods.isPhone($(e).val())) {
+                                if (!componentObj.methods.isCreditCard($(e).val())) {
                                     valid = false;
                                 }
                                 break;
@@ -187,10 +192,23 @@
                                 break;
 
                             }
+                            case "numericonlynozero":
+                            {
+
+                                if (!componentObj.methods.isNumeric($(e).val())) {
+                                    valid = false;
+                                }
+                                if ($(e).val() <= 0) {
+                                    valid = false;
+                                }
+                                break;
+
+                            }
+
                             case "numericorempty":
                             {
                                 if ($(e).val() != "") {
-                                    if (!componentObj.methods.isNumeric($(e).val())) {
+                                    if (!componentObj.methods.isNumeric($(e).val().trim())) {
                                         valid = false;
                                     }
                                 }
@@ -295,18 +313,23 @@
                             }
                             case "select":
                             {
-                                if ($(e).val().length > 0)
+                                if ($(e).val())
                                     valid = true;
                                 else
                                     valid = false;
                                 break;
 
                             }
+                            case "checked":
+                            {
+                                valid = componentObj.methods.isChecked(e);
+                            }
                         }
-                        if (componentObj.custommaterialvalidationons !== undefined) {
-                            for (var key in componentObj.custommaterialvalidationons) {
-                                if ($(e).hasClass(componentObj.custommaterialvalidationons[key].class)) {
-                                    if (!componentObj.custommaterialvalidationons[key].validation(e)) {
+
+                        if (componentObj.customValidations !== undefined) {
+                            for (var key in componentObj.customValidations) {
+                                if (data_validation == componentObj.customValidations[key].name) {
+                                    if (!componentObj.customValidations[key].validation(e)) {
                                         valid = false;
                                     }
                                 }
@@ -320,25 +343,25 @@
                             } else {
                                 $(e).addClass(componentObj.errorClass);
                             }
-
-                            switch (componentObj.theme) {
-                                case "materialize":
-                                {
-                                    Materialize.toast($(e).data().content, 3000, 'rounded');
-                                    break;
-                                }
-                                case "bootstrap":
-                                {
-                                    $(e).popover("show");
-                                    break;
-                                }
-                                default:
-                                {
-                                    alert($(e).data().content);
-                                    break;
+                            if (componentObj.notification) {
+                                switch (componentObj.theme) {
+                                    case "materialize":
+                                    {
+                                        Materialize.toast($(e).data().content, 3000, 'rounded');
+                                        break;
+                                    }
+                                    case "bootstrap":
+                                    {
+                                        $(e).popover("show");
+                                        break;
+                                    }
+                                    default:
+                                    {
+                                        alert($(e).data().content);
+                                        break;
+                                    }
                                 }
                             }
-
                             $("html, body").animate({scrollTop: $(e).offset().top - 105}, 500, function () {
                                 //$(e).focus();
                             });
@@ -369,6 +392,32 @@
                     }
                     return true;
                 },
+                isCreditCard: function (value) {
+                    if (value.length < 16)
+                        return false;
+                    // accept only digits, dashes or spaces
+                    if (/[^0-9-\s]+/.test(value))
+                        return false;
+
+                    // The Luhn Algorithm. It's so pretty.
+                    var nCheck = 0, nDigit = 0, bEven = false;
+                    value = value.replace(/\D/g, "");
+
+                    for (var n = value.length - 1; n >= 0; n--) {
+                        var cDigit = value.charAt(n),
+                                nDigit = parseInt(cDigit, 10);
+
+                        if (bEven) {
+                            if ((nDigit *= 2) > 9)
+                                nDigit -= 9;
+                        }
+
+                        nCheck += nDigit;
+                        bEven = !bEven;
+                    }
+
+                    return (nCheck % 10) == 0;
+                },
                 isAlphaNumeric: function (name) {
                     if (name === "")
                         return false;
@@ -379,8 +428,8 @@
                     return true;
                 },
                 isPhone: function (phone) {
-                    var patternPhone = new RegExp(/^[0-9]+$/);
-                    if (!patternPhone.test(phone) || phone.length < 10) {
+                    var patternPhone = new RegExp(/^\d{10}$/);
+                    if (!patternPhone.test(phone)) {
                         return false;
                     }
                     return true;
@@ -454,8 +503,8 @@
                     return true;
                 },
                 isSerie: function (serie) {
-                    if (serie.length == 17) {
-                        if (componentObj.methods.isNumeric(serie.substr(-4))) {
+                    if (serie.length == 10) {
+                        if (componentObj.methods.isNumeric(serie)) {
                             return true;
                         }
                     }
@@ -487,6 +536,9 @@
                 isURL: function (url) {
                     var regex = /^(ht|f)tps?:\/\/\w+([\.\-\w]+)?\.([a-z]{2,4}|travel)(:\d{2,5})?(\/.*)?$/i;
                     return regex.test(url);
+                },
+                isChecked: function(c){
+                    return $(c).is(":checked");
                 }
 
             }
@@ -494,4 +546,3 @@
         return componentObj;
     };
 })(jQuery);
-
