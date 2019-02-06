@@ -1,9 +1,9 @@
 # xvalidation
-This plugin makes *easier* to implement front-end validation using Materializecss, Bootstrap or even without a framework.
+This plugin makes *easier* to implement front-end validation using Materializecss, Bootstrap, Bulma.io or even without a framework.
 
 ### Implementation
 
-1.  Download materialize
+1.  Download xvalidation
 2.  Add a reference to the jQuery library.
     ```
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
@@ -48,14 +48,17 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 | errorClass| error | string | Class name for highlighting errors. |
 | parentContainer| false | true/false | If set, the div parent will be highlighted insted of the current field. |
 | customvalidationons | [] | array[{"class":"val1", "validation":function}] | Set a custom validation and attatch it to a class name. |
+| telInput| false | boolean | Validate phone number with telInput |
+| notification| true | boolean | Show errors below input |
+
 
 ### Validator Classes
 ##### text
 The content is purely text.
 ##### select
 If the elemet is a non-empty select.
-##### empty
-The content is empty.
+##### noempty
+The content is not empty.
 ##### alphanumeric
 The content has letters and digits.
 ##### numericonly

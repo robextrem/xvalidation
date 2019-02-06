@@ -14,16 +14,16 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-        <script src="/js/materialize-validation.js"></script>
+        <script src="/js/xvalidation.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#form").materialvalidation({
+                $("#form").xvalidation({
                     theme: "materialize"
                 });
                 $("#form").submit(function (evt) {
                     evt.preventDefault();
                     evt.stopPropagation();
-                    if ($("#form").data().materialvalidation.methods.validate()) {
+                    if ($("#form").data().xvalidation.methods.validate()) {
                         alert("Do something");
                     }
                     return false;
@@ -44,7 +44,7 @@ and open the template in the editor.
                     <!--No class validator-->
                     <div class="input-field col s12">
                         <label for="surname">Surname</label>
-                        <input id="surname" type="text" placeholder="Surame (Optional)" data-optional="true" data-validation="text" data-content="Surname cannot be empty">
+                        <input id="surname" type="text" placeholder="Surname (Optional)" data-optional="true" data-validation="text" data-content="Surname cannot be empty">
                     </div>
                     <!--Email validator-->
                     <div class="input-field col s12">
@@ -54,7 +54,11 @@ and open the template in the editor.
                     <!--Password validator-->
                     <div class="input-field col s12">
                         <label for="password">Password</label>
-                        <input id="password" type="password" class="validate password-validation" data-content="At least 8 characters, 1 Digit, 1 Uppercase character and 1 special character." placeholder="Password">
+                        <input id="password" type="password" class="validate" data-validation="password" data-content="At least 8 characters, 1 Digit, 1 Uppercase character and 1 special character." placeholder="Password">
+                    </div>
+                    <div class="input-field col s12">
+                    <label for="textarea" >Comment</label>
+                    <textarea data-validation="noempty" class="materialize-textarea" data-content="Comment cannot be empty"></textarea>
                     </div>
                     <div class="input-field col s12">
                         <button type="submit" class="btn teal">Submit</button>

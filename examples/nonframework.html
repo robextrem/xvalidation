@@ -6,20 +6,20 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Materialize Validation Example</title>
+        <title>Simple Validation Example</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.js"></script>
-        <script src="/js/materialize-validation.js"></script>
+        <script src="/js/xvalidation.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#form").materialvalidation({
+                $("#form").xvalidation({
                     theme: "none"
                 });
                 $("#form").submit(function (evt) {
                     evt.preventDefault();
                     evt.stopPropagation();
-                    if ($("#form").data().materialvalidation.methods.validate()) {
+                    if ($("#form").data().xvalidation.methods.validate()) {
                         alert("Do something");
                     }
                     return false;
@@ -40,16 +40,18 @@ and open the template in the editor.
                 <div class="row">
                     <!--Text validator-->
                     <label for="name">Name</label>
-                    <input id="name" type="text" placeholder="Name" data-validation="text" data-content="Name cannot be empty" >
+                    <input id="name" type="text" placeholder="Name" data-validation="text" data-content="Name cannot be empty" ><br/><br/>
                     <!--No class validator-->
                     <label for="surname">Surname</label>
-                    <input id="surname" type="text" data-optional="true" placeholder="Surname" data-validation="text">
+                    <input id="surname" type="text<br/>" data-optional="true" placeholder="Surname" data-validation="text"><br/><br/>
                     <!--Email validator-->
                     <label for="email">Email</label>
-                    <input id="email" type="email" placeholder="email" data-validation="email" data-content="Email has a invalid format" >
+                    <input id="email" type="email" placeholder="email" data-validation="email" data-content="Email has a invalid format" ><br/><br/>
                     <!--Password validator-->
                     <label for="password" >Password</label>
-                    <input id="password" type="password" data-validation="password" data-content="At least 8 characters, 1 Digit, 1 Uppercase character and 1 special character." placeholder="Password">
+                    <input id="password" type="password" data-validation="password" data-content="At least 8 characters, 1 Digit, 1 Uppercase character and 1 special character." placeholder="Password"><br/><br/>
+                    <label for="textarea" >Comment</label>
+                    <textarea data-validation="noempty" data-content="Comment cannot be empty"></textarea><br/><br/>
                     <button type="submit">Submit</button>
                 </div>
             </form>
