@@ -1,29 +1,30 @@
 (function ($) {
-    $.fn.materialvalidation = function (options)
+    $.fn.xvalidation = function (options)
     {
         return this.each(function ()
         {
             var element = $(this);
             // Return early if this element already has a plugin instance
-            if (element.data('materialvalidation'))
+            if (element.data('xvalidation'))
                 return;
             // pass options to plugin constructor
-            var myplugin = new materialvalidation(this, options);
+            var myplugin = new xvalidation(this, options);
             // Store plugin object in this element's data
-            element.data('materialvalidation', myplugin);
-            element.data().materialvalidation.methods.init();
+            element.data('xvalidation', myplugin);
+            element.data().xvalidation.methods.init();
         });
     };
-    var materialvalidation = function (target, options) {
+    var xvalidation = function (target, options) {
         var componentObj = {
+            telInput: false,
             customValidations: [],
             defaultText: "Invalid Format",
-            fields: "fieldset,select,textarea,input[type=checkbox],input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
+            fields: "fieldset,select,textarea,input[type=hidden],input[type=checkbox],input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=datetime-local],input[type=date],input[type=url]",
             parentContainer: false,
-            html5materialvalidationon: false,
+            html5xvalidationon: false,
             errorClass: "error",
             notification: true,
-            theme: "materialize", // bootstrap | bootstrap | none
+            theme: "materialize", // bootstrap | bootstrap | bulma | none
             methods: {
                 init: function () {
                     if (options != undefined) {
@@ -46,6 +47,11 @@
                             case "materialize":
                             {
                                 componentObj.errorClass = "invalid";
+                                break;
+                            }
+                            case "bulma":
+                            {
+                                componentObj.errorClass = "is-danger";
                                 break;
                             }
                             default:
@@ -71,7 +77,7 @@
                             $(e).data("content", componentObj.defaultText);
                             $(e).attr("data-content", componentObj.defaultText);
                         }
-
+                        /*
                         if (componentObj.theme == "bootstrap") {
 
                             $(e).popover({
@@ -85,6 +91,7 @@
                                 $(e).popover("hide");
                                 $(e).parent().removeClass(componentObj.errorClass);
                             });
+                            
                             $(e).on('hidden.bs.popover', function () {
 
                             });
@@ -96,8 +103,33 @@
                                     }
                                 });
                             });
-                        }
+                        }*/
                     });
+                    
+                    if(componentObj.telInput){
+                        if (window.Intl != undefined) {
+                            $(target).find("[data-validation=phone]").each(function (i, e) {
+                                var telInput = $(e);
+                                telInput.intlTelInput({
+                                    utilsScript: "/js/utils.js",
+                                    formatOnDisplay: true,
+                                    customPlaceholder: function (selectedCountryPlaceholder, selectedCountryData) {
+                                        return "Introduzca 10 dÃ­gitos";
+                                    },
+                                    autoFormat: true,
+                                    allowDropdown: true,
+                                    preferredCountries: ["mx", "us"]
+                                });
+
+                                telInput.blur(function () {
+                                    if ($.trim(telInput.val())) {
+                                      //  telInput.val(intlTelInputUtils.formatNumber(telInput.intlTelInput("getNumber")));
+                                    }
+                                });
+                            });
+                        }
+                    }
+
                 },
                 validate: function () {
 
@@ -109,6 +141,8 @@
 
                         $(e).on("blur", function () {
                             $(this).removeClass(componentObj.errorClass);
+                            $(this).next("span").remove();
+
                         });
 
                         var data_validation = $(e).data("validation");
@@ -128,7 +162,6 @@
 
                             case "noempty":
                             {
-
                                 if ($(e).val().trim() === "")
                                     valid = false;
                                 break;
@@ -163,6 +196,18 @@
                             }
                             case "phone":
                             {
+                                if(componentObj.telInput){
+                                    if (window.Intl != undefined) {
+                                        var telInput = $(e);
+                                        console.log("El valor"+telInput.val());
+                                        if ($.trim(telInput.val())) {
+                                            if (!telInput.intlTelInput("isValidNumber")) {
+                                                valid = false;
+                                                console.log(telInput.intlTelInput("getNumber"));
+                                            }
+                                        }
+                                    }
+                                }
                                 if (!componentObj.methods.isPhone($(e).val())) {
                                     valid = false;
                                 }
@@ -352,7 +397,16 @@
                                     }
                                     case "bootstrap":
                                     {
-                                        $(e).popover("show");
+                                        //$(e).popover("show");
+                                        $(e).next("span.text-danger").remove();
+                                        $(e).after("<span class='text-danger'>" + $(e).data().content + "</span>");
+                                        
+                                        break;
+                                    }
+                                    case "bulma":
+                                    {
+                                        $(e).next("span.has-text-danger").remove();
+                                        $(e).after("<span class='has-text-danger is-size-7'>" + $(e).data().content + "</span>");
                                         break;
                                     }
                                     default:
@@ -386,7 +440,7 @@
                 isText: function (name) {
                     if (name === "")
                         return false;
-                    var patternName = new RegExp(/^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/);
+                    var patternName = new RegExp(/^[a-zA-ZÃÃ‰ÃÃ“ÃšÃ¡Ã©Ã­Ã³ÃºÃ±Ã‘ ]+$/);
                     if (!patternName.test(name)) {
                         return false;
                     }
@@ -449,25 +503,10 @@
                     return true;
                 },
                 isRFC: function (rfcStr) {
-
-                    var strCorrecta;
-                    if (rfcStr.length == 12)
-                    {
-                        strCorrecta = ' ' + rfcStr;
-                    } else
-                    {
-                        strCorrecta = rfcStr;
-                    }
-                    var valid = '^(([A-Z]|[a-z]|\s){1})(([A-Z]|[a-z]){3})([0-9]{6})((([A-Z]|[a-z]|[0-9]){3}))';
-                    var validRfc = new RegExp(valid);
-                    var matchArray = strCorrecta.match(validRfc);
-                    if (matchArray == null) {
+                    var rfcpat = new RegExp(/^([A-ZÃ‘&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/);
+                    if (!rfcpat.test(rfcStr)) {
                         return false;
-                    } else
-                    {
-                        return true;
                     }
-
                     return true;
                 },
                 isClabe: function (clabe) {
@@ -489,7 +528,7 @@
                     return true;
                 },
                 isAddress: function (addr) {
-                    var patternAddress = new RegExp(/^[a-zA-Z0-9ÁÉÍÓÚáéíóúñÑ\-().,# ]+$/);
+                    var patternAddress = new RegExp(/^[a-zA-Z0-9ÃÃ‰ÃÃ“ÃšÃ¡Ã©Ã­Ã³ÃºÃ±Ã‘\-().,# ]+$/);
                     if (!patternAddress.test(addr)) {
                         return false;
                     }
@@ -537,7 +576,7 @@
                     var regex = /^(ht|f)tps?:\/\/\w+([\.\-\w]+)?\.([a-z]{2,4}|travel)(:\d{2,5})?(\/.*)?$/i;
                     return regex.test(url);
                 },
-                isChecked: function(c){
+                isChecked: function (c) {
                     return $(c).is(":checked");
                 }
 
