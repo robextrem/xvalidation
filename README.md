@@ -1,4 +1,4 @@
-# materialize-validation
+# xvalidation
 This plugin makes *easier* to implement front-end validation using Materializecss, Bootstrap or even without a framework.
 
 ### Implementation
@@ -9,9 +9,9 @@ This plugin makes *easier* to implement front-end validation using Materializecs
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     ```
     
-3.  Below the reference to jQuery, add a reference to the materialvalidation script.
+3.  Below the reference to jQuery, add a reference to the xvalidation script.
     ```
-    <script type="text/javascript" src="js/materialize-validation.js"></script>
+    <script type="text/javascript" src="js/xvalidation.js"></script>
     ```
     
 4.  On the page, add a form. Then add a validation-class for every input and (optionally) a data-content message.
@@ -26,13 +26,13 @@ This plugin makes *easier* to implement front-end validation using Materializecs
     
 5.  Initialize materialize on the form .
     ```
-    $("#form").materialvalidation();
+    $("#form").xvalidation();
     ```
 6.  On submit, check the entire form before handling the request.
     
     ```
     $("#form").submit(function(){
-        if($(this).data().materialvalidation.methods.validate()){
+        if($(this).data().xvalidation.methods.validate()){
             // your code
         }
         return false;
@@ -43,7 +43,7 @@ This plugin makes *easier* to implement front-end validation using Materializecs
 
 | Option | Default | Format | Description|
 | ------ | ------- | ------- | ---------- |
-| theme| materialize  | bootstrap/materialize/none | The front-end framework. Materializecss and Bootstrap 3 are currently supported. |
+| theme| materialize  | bootstrap/materialize/bulma/none | The front-end framework. Materializecss and Bootstrap 3 are currently supported. |
 | defaultText| Invalid Format | string | The default notice text when any input field is not valid.  |
 | errorClass| error | string | Class name for highlighting errors. |
 | parentContainer| false | true/false | If set, the div parent will be highlighted insted of the current field. |
