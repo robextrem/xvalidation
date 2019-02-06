@@ -392,7 +392,11 @@
                                 switch (componentObj.theme) {
                                     case "materialize":
                                     {
-                                        Materialize.toast($(e).data().content, 3000, 'rounded');
+                                        /*toast*/
+                                        // Materialize.toast($(e).data().content, 3000, 'rounded');
+                                        $(e).next("span.red-text.wrong").remove();
+                                        $(e).after("<span class='red-text wrong'>" + $(e).data().content + "</span>");
+                                        
                                         break;
                                     }
                                     case "bootstrap":
